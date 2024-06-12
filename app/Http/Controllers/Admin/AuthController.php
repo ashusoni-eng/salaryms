@@ -27,9 +27,10 @@ class AuthController extends Controller
     public function dashboard()
     {
         $totalEmployees = Employee::count();
+        $employees= Employee::all();
         $thisMonthAttendancePercent = $this->calculateAttendancePercent(now()->month);
         $lastMonthAttendancePercent = $this->calculateAttendancePercent(now()->subMonth()->month);
-        return view('admin.dashboard', compact('totalEmployees', 'thisMonthAttendancePercent', 'lastMonthAttendancePercent'));
+        return view('admin.dashboard', compact('totalEmployees','employees', 'thisMonthAttendancePercent', 'lastMonthAttendancePercent'));
     }
 
     protected function calculateAttendancePercent($month)

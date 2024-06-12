@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Salary;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SalaryDetailsMail;
+use Carbon\Carbon;
 
 
 class CalculateSalaries extends Command
@@ -31,15 +32,16 @@ class CalculateSalaries extends Command
     public function handle()
     {
 
-        $salaries = Salary::where('is_salary_calculated', 0)->get();
+        $salaries = Salary::where('is_salary_calculated', 0)->get();        
 
         foreach ($salaries as $salary) {
             $employee = Employee::find($salary->employee_id);
-            if ($employee) {                
-                $perDaySalary = $employee->base_salary / $salary->total_working_days;
+            if ($employee) {
+                $totalDaysInMonth= Carbon::createFromDate($salary->year, $salary->month, 1)->daysInMonth;
+                $perDaySalary = $employee->base_salary / $totalDaysInMonth;
 
                 $totalSalary = $perDaySalary * ($salary->total_working_days - $salary->total_leave_taken + $salary->overtime / 8);
-
+                
                 $salary->total_salary_made = $totalSalary;
                 $salary->is_salary_calculated = 1;
                 $salary->save();

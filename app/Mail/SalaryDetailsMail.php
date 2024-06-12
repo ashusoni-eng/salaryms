@@ -35,12 +35,20 @@ class SalaryDetailsMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    // public function content(): Content
+    // {
+    //     $this->view('emails.salary_details')
+    //                 ->with([
+    //                     'salary' => $this->salary,
+    //                     'employee' => $this->salary->employee,
+    //                 ]);
+    // }
+    public function build()
     {
-        $this->view('emails.salary_details')
+        return $this->view('emails.salary_details')
                     ->with([
                         'salary' => $this->salary,
-                        'employee' => $this->salary->employee,
+                        'employee' => $this->employee,
                     ]);
     }
 

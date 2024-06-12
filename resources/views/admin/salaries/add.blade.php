@@ -72,8 +72,8 @@
                             </div>
 
                             <div class="col-4">
-                                <label for="overtime">Over Time</label>
-                                <input type="number" class="form-control" name="overtime" placeholder="Enter Over Time">                                
+                                <label for="overtime">Over Time (in Hours.)</label>
+                                <input type="number" class="form-control" name="overtime" placeholder="Enter Over Time  (in Hours.)">                                
                                 @error('address')
                                     <span class="text-danger">{{$message}}</span>
                                 @enderror

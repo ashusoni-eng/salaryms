@@ -1,0 +1,2 @@
+{{$totalEmployees}}
+{{$thisMonthAttendancePercent}}

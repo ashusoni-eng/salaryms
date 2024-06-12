@@ -10,6 +10,10 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
+    protected $commans =[
+        commands\CalculateSalaries::class,
+    ];
+    
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('salaries:calculate')->monthlyOn(2, '00:00');

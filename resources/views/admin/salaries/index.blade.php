@@ -9,7 +9,7 @@
                     <h6>Salary List</h6>
                     <button class="btn btn-primary"><a href="{{route('salaries.create')}}" class="text-white" >Add New</a></button>
                 </div>
-                <table class="table">
+                <table class="table text-center">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -19,22 +19,25 @@
                             <th scope="col">Total Working Days</th>
                             <th scope="col">Total Leave Taken</th>
                             <th scope="col">Overtime</th>
+                            <th scope="col">Salary Made</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
                             $i=1;
+                            use Carbon\Carbon;
                         @endphp
                         @if ($salaries)
                             @foreach ($salaries as $salary)
                                 <tr>
                                     <th scope="row">{{$i++}}</th>
                                     <td>{{$salary->employee->name}}</td>
-                                    <td>{{$salary->month}}</td>
+                                    <td>{{ Carbon::create()->month($salary->month)->format('F') }}</td>
                                     <td>{{$salary->year}}</td>
                                     <td>{{$salary->total_working_days}}</td>
                                     <td>{{$salary->total_leave_taken}}</td>
                                     <td>{{$salary->overtime}}</td>
+                                    <td>{{$salary->total_salary_made}}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -46,7 +49,7 @@
                     </div>
                 @endif
                 @if(session('failed'))
-                    <div class="alert alert-failed">
+                    <div class="alert alert-danger">
                         {{ session('failed') }}
                     </div>
                 @endif

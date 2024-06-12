@@ -25,4 +25,5 @@ class Salary extends Model
     function employee(){
         return $this->belongsTo(Employee::class,'employee_id');
     }
+    
 }

@@ -13,7 +13,7 @@ class SalaryController extends Controller
      */
     public function index()
     {
-        $salaries = Salary::where('is_salary_calculated', 0)->paginate(10);
+        $salaries = Salary::paginate(10);
         $data= compact('salaries');
         return view('admin.salaries.index')->With($data);
     }
@@ -51,7 +51,7 @@ class SalaryController extends Controller
         $existingSalary= Salary::where('employee_id',$request['employee_id'])
                                 ->where('month',$request['month'])
                                 ->where('year',$request['year'])
-                                ->get();
+                                ->exists();
         if(!$existingSalary){
             Salary::create($salary);
             return redirect()->route('salaries.index')->with('success', 'Salary Added successfully');

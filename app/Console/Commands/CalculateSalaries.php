@@ -3,6 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Employee;
+use App\Models\Salary;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SalaryDetailsMail;
+
 
 class CalculateSalaries extends Command
 {
@@ -25,17 +30,24 @@ class CalculateSalaries extends Command
      */
     public function handle()
     {
+
         $salaries = Salary::where('is_salary_calculated', 0)->get();
+
         foreach ($salaries as $salary) {
             $employee = Employee::find($salary->employee_id);
-            $perDaySalary = $employee->base_salary / $salary->total_working_days;
-            $totalSalary = $perDaySalary * ($salary->total_working_days - $salary->total_leave_taken + $salary->overtime / 8);
-            $salary->total_salary_made = $totalSalary;
-            $salary->is_salary_calculated = 1;
-            $salary->save();
+            if ($employee) {                
+                $perDaySalary = $employee->base_salary / $salary->total_working_days;
 
-            // Mail the salary details
-            Mail::to($employee->email)->queue(new SalaryDetailsMail($salary));
+                $totalSalary = $perDaySalary * ($salary->total_working_days - $salary->total_leave_taken + $salary->overtime / 8);
+
+                $salary->total_salary_made = $totalSalary;
+                $salary->is_salary_calculated = 1;
+                $salary->save();
+
+                Mail::to($employee->email)->send(new SalaryDetailsMail($salary));
+            }
         }
+        $this->info('Salaries calculated and emails sent successfully.');        
     }
+    
 }

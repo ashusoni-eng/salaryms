@@ -31,7 +31,7 @@
                                     <option value="" selected>Select Month</option>
                                     @if ($months)
                                         @foreach ($months as $key => $month)
-                                            <option value="{{ $key + 1 }}">{{ $month }}</option>
+                                            <option value="{{ $key }}">{{ $month }}</option>
                                         @endforeach
                                     @endif
                                 </select>
